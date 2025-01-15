@@ -1,0 +1,3 @@
+
+# Unity generated files and folders
+/[Llaves del Proyecto]
