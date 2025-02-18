@@ -68,7 +68,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 7b5d57066efd79c41a155c1eed290bcb, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -136,6 +136,7 @@ MonoBehaviour:
   investigateTime: 3
   closeRangeDetection: 7
   hearingRange: 25
+  shootingRange: 10
   obstacleMask:
     serializedVersion: 2
     m_Bits: 8
@@ -175,6 +176,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
+  slider: {fileID: 0}
 --- !u!114 &6120233653049636303
 MonoBehaviour:
   m_ObjectHideFlags: 0
