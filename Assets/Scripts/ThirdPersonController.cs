@@ -65,7 +65,7 @@ public class ThirdPersonController : MonoBehaviour
         // Input checkers
         inputHorizontal = Input.GetAxis("Horizontal");
         inputVertical = Input.GetAxis("Vertical");
-        print(inputVertical);
+        //print(inputVertical);
         inputJump = Input.GetAxis("Jump") == 1f;
         inputSprint = Input.GetAxis("Sprint") == 1f;
         // Unfortunately GetAxis does not work with GetKeyDown, so inputs must be taken individually
