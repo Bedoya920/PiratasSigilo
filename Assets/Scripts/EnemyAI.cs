@@ -88,9 +88,11 @@ public class EnemyAI : MonoBehaviour
     IEnumerator WaitAtPatrolPoint()
     {
         isWaiting = true;
+        this.gameObject.GetComponent<Renderer>().material.color = Color.blue;
         yield return new WaitForSeconds(restPatrol);
         currentPathIndex = (currentPathIndex + 1) % pathPoints.Length;
         agent.destination = pathPoints[currentPathIndex].position;
+        
         isWaiting = false;
     }
 
@@ -172,6 +174,7 @@ public class EnemyAI : MonoBehaviour
             
             if (distanceToPlayer <= closeRangeDetection)
             {
+                this.gameObject.GetComponent<Renderer>().material.color = Color.red;
                 print("Voy por ti sucia");
                 isAgro = true;
                 agroCounter = 0f;
