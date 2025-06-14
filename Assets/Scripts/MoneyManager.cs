@@ -20,12 +20,7 @@ public class MoneyManager : MonoBehaviour
             Destroy(gameObject); 
         }
     }
-
-    void Start()
-    {
-        
-    }
-
+    
     public void GainMoney(int amount)
     {
         actualMoney += amount;
