@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using ObserverStuff;
 
-public class EnemyAI : MonoBehaviour
+public class EnemyAI : MonoBehaviour, IEnemyObserver
 {
     [Header("Ruta y Visión")]
     public Transform[] pathPoints;
@@ -40,6 +41,7 @@ public class EnemyAI : MonoBehaviour
     // Componente de disparo
     private EnemyShooting enemyShooting;
 
+
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -52,6 +54,9 @@ public class EnemyAI : MonoBehaviour
         isWaiting = false;
         isInvestigating = false;
         searchCounter = 0f;
+        
+        //Añadido al la lista del Time manager
+        TimeManager.ins.AddObserver(this);
     }
 
     void Update()
@@ -105,17 +110,14 @@ public class EnemyAI : MonoBehaviour
 
     IEnumerator InvestigateSound()
     {
-        print("Sellamo investigate Sound0");
         isWaiting = true;
-        float timer = investigateTime;
+        float timer = 0f;
 
-        while (timer > 0 && agent.remainingDistance > 0.5f)
+        while (timer < investigateTime && agent.remainingDistance > 0.5f)
         {
             timer += Time.deltaTime;
             yield return null;
         }
-
-        print("Acabo el ciclo de investigate Sound0");
         if (IsPlayerInSight())
         {
             PlayerFound();
@@ -235,6 +237,15 @@ public class EnemyAI : MonoBehaviour
             }
         }
         return false;
+    }
+
+    public void TimeChange()
+    {
+        agroTime -= .5f;
+        restPatrol -= .5f;  
+        investigateTime -= 2f;
+        agent.speed += 1.5f;
+
     }
 
     // Dibuja los círculos en la escena

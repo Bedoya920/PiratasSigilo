@@ -19,8 +19,6 @@ public class Health : MonoBehaviour
         playerRag = GetComponent<PlayerRagdoll>();
         playerController = GetComponent<ThirdPersonController>();
         if(this.CompareTag("Player"))  slider.value = currentHealth;
-           
-        
         
     }
 
@@ -32,8 +30,6 @@ public class Health : MonoBehaviour
             Die();
             if(this.CompareTag("Player")) UpdateHealthUI();
                 
-            
-            
         }
         if(this.CompareTag("Player")) UpdateHealthUI();
 
@@ -50,6 +46,8 @@ public class Health : MonoBehaviour
             playerRag.RagdollON();
             playerController.enabled = false;
         } else{
+            TimeManager.ins.RemoveObserver(GetComponent<EnemyAI>());
+
             Destroy(gameObject);
         }
         
