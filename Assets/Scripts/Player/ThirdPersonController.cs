@@ -1,12 +1,6 @@
 ﻿using UnityEditor.VersionControl;
 using UnityEngine;
 
-
-/// <summary>
-/// Main script for third-person movement of the character in the game.
-/// Make sure that the object that will receive this script (the player) 
-/// has the Player tag and the Character Controller component.
-/// </summary>
 public class ThirdPersonController : MonoBehaviour
 {
 
@@ -65,9 +59,10 @@ public class ThirdPersonController : MonoBehaviour
         // Input checkers
         inputHorizontal = Input.GetAxis("Horizontal");
         inputVertical = Input.GetAxis("Vertical");
-        //print(inputVertical);
+        
         inputJump = Input.GetAxis("Jump") == 1f;
         inputSprint = Input.GetAxis("Sprint") == 1f;
+        
         // Unfortunately GetAxis does not work with GetKeyDown, so inputs must be taken individually
         inputCrouch = Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.JoystickButton1);
 
@@ -118,13 +113,16 @@ public class ThirdPersonController : MonoBehaviour
         // Sprinting velocity boost or crounching desacelerate
         float velocityAdittion = 0;
 
-
-        if ( isSprinting ){
+        if (isSprinting){
             velocityAdittion = sprintAdittion;
-            playerSound.EmitSound();
+            playerSound.CallEmitSound();
             
-            
+        } 
+        
+        if(isSprinting){
+            playerSound.EndEmitSound();
         }
+        
             
         if (isCrouching)
             velocityAdittion =  - (velocity * 0.50f); // -50% velocity

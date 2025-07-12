@@ -6,10 +6,6 @@ TagManager:
   tags:
   - Graund
   - Water
-  - ZipLine
-  - wall
-  - Vehicle
-  - car
   layers:
   - Default
   - TransparentFX

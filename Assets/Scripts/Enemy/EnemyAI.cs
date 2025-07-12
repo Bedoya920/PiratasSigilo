@@ -5,24 +5,25 @@ using UnityEngine.AI;
 
 public class EnemyAI : MonoBehaviour
 {
-    // Puntos de ruta (Patrol)
+    [Header("Ruta y Visión")]
     public Transform[] pathPoints;
     public Transform player;
     public float visionRange = 10f;
     public float visionAngle = 45f;
 
-    // Variables relacionadas con los tiempos
+    [Header("Tiempos")]
     public float agroTime = 2f;
     public float restPatrol = 2f;  
     public float investigateTime = 10f;
 
-    // Variables relacionadas con los rangos
+    [Header("Rangos")]
     public float closeRangeDetection = 3f; // Rango cercano para activar Agro de una
     public float hearingRange = 5f; // Rango de escucha del enemigo
     public float shootingRange = 10f; // Rango de disparo
 
     public LayerMask obstacleMask;
 
+    //NavMesh data
     private NavMeshAgent agent;
     private int currentPathIndex;
     
@@ -77,6 +78,12 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
+    void PlayerFound()
+    {
+        isAgro = true;
+        agroCounter = 0f;
+    }
+
     void Patrol()
     {
         if (agent.remainingDistance < 0.5f && !isWaiting)
@@ -88,27 +95,30 @@ public class EnemyAI : MonoBehaviour
     IEnumerator WaitAtPatrolPoint()
     {
         isWaiting = true;
+        this.gameObject.GetComponent<Renderer>().material.color = Color.blue;
         yield return new WaitForSeconds(restPatrol);
         currentPathIndex = (currentPathIndex + 1) % pathPoints.Length;
         agent.destination = pathPoints[currentPathIndex].position;
+        
         isWaiting = false;
     }
 
     IEnumerator InvestigateSound()
     {
+        print("Sellamo investigate Sound0");
         isWaiting = true;
-        float timer = 0f;
+        float timer = investigateTime;
 
-        while (timer < investigateTime && agent.remainingDistance > 0.5f)
+        while (timer > 0 && agent.remainingDistance > 0.5f)
         {
             timer += Time.deltaTime;
             yield return null;
         }
 
+        print("Acabo el ciclo de investigate Sound0");
         if (IsPlayerInSight())
         {
-            isAgro = true;
-            agroCounter = 0f;
+            PlayerFound();
         }
 
         isWaiting = false;
@@ -156,7 +166,7 @@ public class EnemyAI : MonoBehaviour
 
             if (IsPlayerInSight())
             {
-                isAgro = true;
+                PlayerFound();
                 yield break;
             }
         }
@@ -172,17 +182,15 @@ public class EnemyAI : MonoBehaviour
             
             if (distanceToPlayer <= closeRangeDetection)
             {
-                print("Voy por ti sucia");
-                isAgro = true;
-                agroCounter = 0f;
+                print("Agro activo, te estoy persiguiendo");
+                PlayerFound();
             }
             else
             {
                 agroCounter += Time.deltaTime;
                 if (agroCounter >= agroTime)
                 {
-                    isAgro = true;
-                    agroCounter = 0f;
+                    PlayerFound();
                 }
             }
         }
@@ -204,12 +212,11 @@ public class EnemyAI : MonoBehaviour
             
             if (distanceToPlayer <= closeRangeDetection)
             {
-                print("Voy por ti sucia");
-                isAgro = true;
-                agroCounter = 0f;
+                print("Voy por ti sucia, gracias al sonido que hiciste");
+                PlayerFound();
             }
         }
-    }
+    } 
 
     public bool IsPlayerInSight()
     {
@@ -240,6 +247,7 @@ public class EnemyAI : MonoBehaviour
         Vector3 leftBoundary = Quaternion.Euler(0, -visionAngle / 2, 0) * transform.forward * visionRange;
         Vector3 rightBoundary = Quaternion.Euler(0, visionAngle / 2, 0) * transform.forward * visionRange;
 
+        //Rango vision
         Gizmos.color = Color.blue;
         Gizmos.DrawLine(transform.position, transform.position + leftBoundary);
         Gizmos.DrawLine(transform.position, transform.position + rightBoundary);
