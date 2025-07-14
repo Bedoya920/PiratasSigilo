@@ -6,7 +6,7 @@ public class MoneyManager : MonoBehaviour
 {
     public static MoneyManager Instance { get; private set; }
 
-    private int actualMoney;
+    public static int actualMoney { get; private set; }
 
     void Awake()
     {
@@ -27,11 +27,11 @@ public class MoneyManager : MonoBehaviour
         print($"Dinero actual: {actualMoney}");
     }
 
+    //Esto se llama cuando se termina la escena
     public void TotalEarnings()
     {
         int total = actualMoney + PlayerPrefs.GetInt("TotalMoney", 0);
         PlayerPrefs.SetInt("TotalMoney", total);
         PlayerPrefs.Save();
-        actualMoney = 0;
     }
 }

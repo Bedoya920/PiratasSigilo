@@ -15,4 +15,12 @@ namespace ObserverStuff
         void RemoveObserver(IEnemyObserver observer);
         void NotifyHour();
     }
+
+    public enum DayMoment
+    {
+        Morning,
+        Afternoon,
+        Night
+    }
+
 }

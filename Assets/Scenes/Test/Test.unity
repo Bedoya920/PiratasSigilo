@@ -2924,6 +2924,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb50b3ace332cce4589c9dc85bf2d6ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  directionalLight: {fileID: 410087040}
+  totalCycleTime: 30
 --- !u!4 &1948964657
 Transform:
   m_ObjectHideFlags: 0

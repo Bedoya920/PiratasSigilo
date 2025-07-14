@@ -37,6 +37,7 @@ public class EnemyAI : MonoBehaviour, IEnemyObserver
     [HideInInspector] public bool isAgro;
     private Vector3 lastKnownPosition;
     private float searchCounter;
+    private int timeChanges;
 
     // Componente de disparo
     private EnemyShooting enemyShooting;
@@ -241,12 +242,34 @@ public class EnemyAI : MonoBehaviour, IEnemyObserver
 
     public void TimeChange()
     {
-        agroTime -= .5f;
-        restPatrol -= .5f;  
+        agroTime -= 0.5f;
+        restPatrol -= 0.5f;
         investigateTime -= 2f;
         agent.speed += 1.5f;
+        timeChanges++;
 
+        switch (timeChanges)
+        {
+            case 1:
+                ChangeColor(Color.green);
+                break;
+
+            case 2:
+                ChangeColor(Color.yellow);
+                break;
+        }
     }
+
+    //Esto se debe reemplazar por la lógica cuando cambia de tiempo
+    private void ChangeColor(Color color)
+    {
+        Renderer renderer = GetComponentInChildren<Renderer>();
+        if (renderer != null)
+        {
+            renderer.material.color = color;
+        }
+    }
+
 
     // Dibuja los círculos en la escena
     void OnDrawGizmos()
